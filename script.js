@@ -411,4 +411,186 @@ function showToolDetails(toolName) {
     if (!tool) return;
     
     const riskWarning = tool.risk_level === 'high' || tool.risk_level === 'very_high' 
-        ? '\n\n⚠️ WARNUNG
+        ? '\n\n⚠️ WARNUNG: Dieses Tool hat ein hohes Risiko und sollte nur von autorisierten Sicherheitsexperten verwendet werden!' 
+        : '';
+    
+    const details = `
+🔧 ${tool.name}
+
+📝 Beschreibung:
+${tool.description}
+
+💻 Executable: ${tool.executable}
+🏷️ Kategorie: ${tool.category}
+🖥️ Plattform: ${tool.platform}
+⚠️ Risikostufe: ${formatRiskLevel(tool.risk_level)}${riskWarning}
+
+═══════════════════════════════════════
+⚠️ WICHTIGER HINWEIS:
+Dieses Tool darf nur für autorisierte Sicherheitstests und zu Bildungszwecken verwendet werden. Missbrauch ist strafbar!
+    `;
+    
+    alert(details);
+}
+
+// Add loading animation
+function showLoading() {
+    const loadingDiv = document.createElement('div');
+    loadingDiv.id = 'loading';
+    loadingDiv.innerHTML = `
+        <div style="
+            position: fixed; 
+            top: 0; 
+            left: 0; 
+            width: 100%; 
+            height: 100%; 
+            background: rgba(6, 11, 20, 0.9); 
+            display: flex; 
+            justify-content: center; 
+            align-items: center; 
+            z-index: 9999;
+        ">
+            <div style="color: var(--accent); font-size: 18px;">
+                <div style="
+                    width: 40px; 
+                    height: 40px; 
+                    border: 3px solid transparent; 
+                    border-top: 3px solid var(--accent); 
+                    border-radius: 50%; 
+                    animation: spin 1s linear infinite;
+                    margin: 0 auto 15px;
+                "></div>
+                Tools werden geladen...
+            </div>
+        </div>
+        <style>
+            @keyframes spin {
+                0% { transform: rotate(0deg); }
+                100% { transform: rotate(360deg); }
+            }
+        </style>
+    `;
+    document.body.appendChild(loadingDiv);
+}
+
+function hideLoading() {
+    const loading = document.getElementById('loading');
+    if (loading) {
+        loading.remove();
+    }
+}
+
+// Enhanced scroll reveal with stagger effect
+function enhancedScrollReveal() {
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry, index) => {
+            if (entry.isIntersecting) {
+                setTimeout(() => {
+                    entry.target.classList.add('visible');
+                }, index * 100); // Stagger effect
+            }
+        });
+    }, {
+        threshold: 0.1,
+        rootMargin: '0px 0px -50px 0px'
+    });
+
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+}
+
+// Add smooth hover effects for cards
+function addCardInteractions() {
+    document.querySelectorAll('.card').forEach(card => {
+        card.addEventListener('mouseenter', function() {
+            this.style.transform = 'translateY(-8px) scale(1.02)';
+        });
+        
+        card.addEventListener('mouseleave', function() {
+            this.style.transform = 'translateY(0) scale(1)';
+        });
+    });
+}
+
+// Initialize everything when DOM is loaded
+document.addEventListener('DOMContentLoaded', function() {
+    showLoading();
+    
+    setTimeout(() => {
+        loadToolsData().then(() => {
+            hideLoading();
+            setupScrollAnimations();
+            setupEventListeners();
+            setupSmoothScrolling();
+            enhancedScrollReveal();
+            addCardInteractions();
+        });
+    }, 800); // Simulate loading time
+});
+
+// Add keyboard shortcuts
+document.addEventListener('keydown', function(e) {
+    // Ctrl/Cmd + K to focus search
+    if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
+        e.preventDefault();
+        document.getElementById('search').focus();
+    }
+    
+    // Escape to clear search
+    if (e.key === 'Escape') {
+        const searchInput = document.getElementById('search');
+        if (searchInput === document.activeElement) {
+            searchInput.blur();
+        }
+        if (searchInput.value) {
+            searchInput.value = '';
+            handleSearch({ target: { value: '' } });
+        }
+    }
+});
+
+// Add search suggestions
+function addSearchSuggestions() {
+    const searchInput = document.getElementById('search');
+    const suggestions = ['kernel', 'sql', 'network', 'mobile', 'exploit', 'vulnerability'];
+    
+    searchInput.addEventListener('focus', function() {
+        if (!this.value) {
+            this.placeholder = `Versuche: ${suggestions[Math.floor(Math.random() * suggestions.length)]}...`;
+        }
+    });
+    
+    searchInput.addEventListener('blur', function() {
+        this.placeholder = 'Suche nach Name, Plattform, Kategorie …';
+    });
+}
+
+// Add copy functionality for executables
+function addCopyFunctionality() {
+    document.querySelectorAll('.executable').forEach(exec => {
+        exec.style.cursor = 'pointer';
+        exec.title = 'Klicken zum Kopieren';
+        
+        exec.addEventListener('click', function() {
+            navigator.clipboard.writeText(this.textContent).then(() => {
+                const original = this.textContent;
+                this.textContent = '✓ Kopiert!';
+                this.style.color = 'var(--ok)';
+                
+                setTimeout(() => {
+                    this.textContent = original;
+                    this.style.color = 'var(--accent)';
+                }, 1000);
+            });
+        });
+    });
+}
+
+// Update the renderAllTools function to include new interactions
+const originalRenderAllTools = renderAllTools;
+renderAllTools = function() {
+    originalRenderAllTools.call(this);
+    setTimeout(() => {
+        addCardInteractions();
+        addCopyFunctionality();
+    }, 100);
+};

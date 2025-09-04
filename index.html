@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tools & Resources Directory</title>
+  <meta name="description" content="Legale Tools & Ressourcen für Roblox-Entwicklung – mit Filtern, Warnhinweisen und sanften Scroll-Animationen." />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="nav">
+    <div class="inner">
+      <div class="brand"><span>⚡</span> Tools Directory</div>
+      <nav>
+        <a href="#paid">Paid</a>
+        <a href="#free">Free</a>
+        <a href="#keyless">Keyless</a>
+        <a href="#mobilepc">Mobile/PC</a>
+      </nav>
+    </div>
+  </header>
+
+  <section class="hero">
+    <div class="hero-inner">
+      <h1 class="reveal">Sauber & sicher: Tools für Creator</h1>
+      <p class="reveal delay-1">Dieses Template ist für <strong>legale</strong> Ressourcen gedacht (z.&nbsp;B. Roblox Studio, Lernmaterial, Plugins).<br/>
+      <span class="warn">Wir verlinken keine Exploits/Cheats.</span></p>
+      <a class="cta reveal delay-2" href="#directory">Los geht’s</a>
+    </div>
+  </section>
+
+  <main id="directory" class="container">
+    <div class="filters reveal">
+      <input id="search" type="search" placeholder="Suche nach Name, Plattform, Tags …" />
+      <div class="chip-group">
+        <button class="chip" data-filter="Paid">Paid</button>
+        <button class="chip" data-filter="Free">Free</button>
+        <button class="chip" data-filter="Keyless">Keyless</button>
+        <button class="chip" data-filter="Mobile">Mobile</button>
+        <button class="chip" data-filter="PC">PC</button>
+        <button class="chip" data-filter="Mac">Mac</button>
+        <button class="chip" data-filter="Warnung">Warnung</button>
+        <button id="clear" class="chip clear">Reset</button>
+      </div>
+    </div>
+
+    <section id="paid" class="section">
+      <h2 class="section-title reveal">Paid</h2>
+      <div class="grid" data-section="Paid"></div>
+    </section>
+
+    <section id="free" class="section">
+      <h2 class="section-title reveal">Free</h2>
+      <div class="grid" data-section="Free"></div>
+    </section>
+
+    <section id="keyless" class="section">
+      <h2 class="section-title reveal">Keyless</h2>
+      <p class="muted reveal">Für dieses Template bedeutet „Keyless“: frei zugängliche Ressourcen ohne Registrierung/Schlüssel.</p>
+      <div class="grid" data-section="Keyless"></div>
+    </section>
+
+    <section id="mobilepc" class="section">
+      <h2 class="section-title reveal">Mobile / PC</h2>
+      <div class="grid" data-section="MobilePC"></div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="inner">
+      <p>Made for Vercel · Dark Blue Theme · Smooth Scroll</p>
+      <p class="tiny">Hinweis: Keine Exploit-/Cheatlinks. Bleib fair & sicher.</p>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
